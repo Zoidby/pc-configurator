@@ -1,0 +1,23 @@
+﻿@model PcConfigurator.Models.CpuModels.CpuAddModel
+
+@{
+    ViewBag.Title = "Add CPU";
+}
+<br/>
+<form action="@this.Request.Url.AbsoluteUri" method="POST">
+    <div class="form-group">
+        <label>CPU Number</label>
+        @Html.TextBoxFor(m => this.Model.Number, new { @class = "form-control", style = "width: 40%" })
+    </div>
+    <div class="form-group">
+        <label>CPU Brand</label>
+        @Html.TextBoxFor(m => this.Model.Brand, new { @class = "form-control", style = "width: 40%" })
+    </div>
+    <div class="form-group">
+        <label>CPU Socket</label>
+        @Html.TextBoxFor(m => this.Model.Socket, new { @class = "form-control", style = "width: 40%" })
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">
+        Add CPU
+    </button>
+</form>

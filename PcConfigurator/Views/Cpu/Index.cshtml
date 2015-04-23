@@ -1,0 +1,28 @@
+﻿@model PcConfigurator.Models.CpuModels.IndexModel
+
+@{
+    ViewBag.Title = "Cpus";
+}
+<br/>
+@if (this.Model.CpuList.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Brand</th>
+            <th>Socket</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var cpu in this.Model.CpuList)
+        {
+            <tr>
+                <td>@cpu.Number</td>
+                <td>@cpu.Brand</td>
+                <td>@cpu.Socket</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

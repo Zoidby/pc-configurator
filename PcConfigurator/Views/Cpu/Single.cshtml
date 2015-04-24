@@ -1,0 +1,13 @@
+﻿@model PcConfigurator.Models.CpuModels.CpuSingleModel
+@{
+    ViewBag.Title = "Single CPU";
+}
+
+<br/>
+
+@if (this.Model.Entity != null)
+{
+    <h2>@this.Model.Entity.Brand @this.Model.Entity.Model</h2>
+    <br/>
+    <p>For @this.Model.Entity.Socket</p>
+}

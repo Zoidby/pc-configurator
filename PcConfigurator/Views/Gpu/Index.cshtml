@@ -1,0 +1,26 @@
+﻿@model PcConfigurator.Models.GpuModels.GpuIndexModel
+
+@{
+    ViewBag.Title = "Cpus";
+}
+<br/>
+@if (this.Model.GpuList.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var gpu in this.Model.GpuList)
+        {
+            <tr>
+                <td>@gpu.Brand</td>
+                <td>@gpu.GpuModel</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

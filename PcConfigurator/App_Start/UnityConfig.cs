@@ -1,7 +1,11 @@
 using System;
+using System.Web.Configuration;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
-using PcConfigurator.DAL;
+using MongoDB.Driver;
+using PcConfigurator.Repositories;
+using PcConfigurator.Repositories.Mongo;
+using PcConfigurator.Service;
+using PcConfigurator.Service.Mongo;
 
 namespace PcConfigurator.App_Start
 {
@@ -11,6 +15,7 @@ namespace PcConfigurator.App_Start
     public class UnityConfig
     {
         #region Unity Container
+
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
@@ -25,6 +30,7 @@ namespace PcConfigurator.App_Start
         {
             return container.Value;
         }
+
         #endregion
 
         /// <summary>Registers the type mappings with the Unity container.</summary>
@@ -38,7 +44,30 @@ namespace PcConfigurator.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<CpuDal>();
+            string url = System.Configuration.ConfigurationManager.ConnectionStrings["MONGO"].ConnectionString;
+            ;
+            string dbName = WebConfigurationManager.AppSettings["dbName"];
+            var client = new MongoClient(url);
+            var server = client.GetServer();
+            var db = server.GetDatabase(dbName);
+
+            container.RegisterInstance(typeof (MongoDatabase), db);
+
+            //repositories
+            container.RegisterType<ICpuRepository, CpuRepository>();
+            container.RegisterType<IGpuRepository, GpuRepository>();
+            container.RegisterType<IMemoryRepository, MemoryRepository>();
+            container.RegisterType<IPsuRepository, PsuRepository>();
+            container.RegisterType<IMotherboardRepository, MotherboardRepository>();
+            container.RegisterType<ICaseRepository, CaseRepository>();
+
+            //services
+            container.RegisterType<ICpuService, CpuService>();
+            container.RegisterType<IGpuService, GpuService>();
+            container.RegisterType<IMemoryService, MemoryService>();
+            container.RegisterType<IPsuService, PsuService>();
+            container.RegisterType<IMotherboardService, MotherboardService>();
+            container.RegisterType<ICaseService, CaseService>();
         }
     }
 }

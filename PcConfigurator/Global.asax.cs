@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.EnterpriseServices;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Services.Description;
+using AutoMapper;
+using PcConfigurator.Entities.Mongo;
+using PcConfigurator.Models;
 
 namespace PcConfigurator
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -18,6 +16,13 @@ namespace PcConfigurator
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Mapper.CreateMap<Cpu, CpuDto>().ReverseMap();
+            Mapper.CreateMap<Gpu, GpuDto>().ReverseMap();
+            Mapper.CreateMap<Psu, PsuDto>().ReverseMap();
+            Mapper.CreateMap<Motherboard, MotherboardDto>().ReverseMap();
+            Mapper.CreateMap<Memory, MemoryDto>().ReverseMap();
+            Mapper.CreateMap<Case, CaseDto>().ReverseMap();
         }
     }
 }

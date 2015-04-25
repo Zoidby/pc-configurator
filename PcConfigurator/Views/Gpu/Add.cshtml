@@ -1,0 +1,19 @@
+﻿@model PcConfigurator.Models.GpuModels.GpuAddModel
+
+@{
+    ViewBag.Title = "Add CPU";
+}
+<br/>
+<form action="@Request.Url.AbsoluteUri" method="POST">
+    <div class="form-group">
+        <label>GPU Brand</label>
+        @Html.TextBoxFor(m => Model.Brand, new {@class = "form-control", style = "width:40%"})
+    </div>
+    <div class="form-group">
+        <label>GPU Model</label>
+        @Html.TextBoxFor(m => Model.Name, new {@class = "form-control", style = "width:40%"})
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">
+        Add GPU
+    </button>
+</form>

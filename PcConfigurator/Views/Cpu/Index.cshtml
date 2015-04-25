@@ -1,10 +1,10 @@
-﻿@model PcConfigurator.Models.CpuModels.IndexModel
+﻿@model PcConfigurator.Models.CpuModels.CpuIndexModel
 
 @{
     ViewBag.Title = "Cpus";
 }
 <br/>
-@if (this.Model.CpuList.Count > 0)
+@if (Model.CpuList.Count > 0)
 {
     <table class="table table-striped">
         <thead>
@@ -15,12 +15,13 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var cpu in this.Model.CpuList)
+        @foreach (var cpu in Model.CpuList)
         {
             <tr>
-                <td>@cpu.Number</td>
+                <td>@Html.ActionLink(cpu.Name, "Single", "Cpu", new {cpu.Id}, null)</td>
                 <td>@cpu.Brand</td>
                 <td>@cpu.Socket</td>
+                <td>@Html.ActionLink("Remove", "Remove", "Cpu", new {cpu.Id}, null)</td>
             </tr>
         }
         </tbody>

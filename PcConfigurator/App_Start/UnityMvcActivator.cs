@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
+using PcConfigurator.App_Start;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(PcConfigurator.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(PcConfigurator.App_Start.UnityWebActivator), "Shutdown")]
+[assembly: PreApplicationStartMethod(typeof (UnityWebActivator), "Start")]
+[assembly: ApplicationShutdownMethod(typeof (UnityWebActivator), "Shutdown")]
 
 namespace PcConfigurator.App_Start
 {
@@ -11,7 +13,7 @@ namespace PcConfigurator.App_Start
     public static class UnityWebActivator
     {
         /// <summary>Integrates Unity when the application starts.</summary>
-        public static void Start() 
+        public static void Start()
         {
             var container = UnityConfig.GetConfiguredContainer();
 

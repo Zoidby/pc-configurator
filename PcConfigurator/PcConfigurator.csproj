@@ -158,6 +158,8 @@
     <Compile Include="Entities\Motherboard.cs" />
     <Compile Include="Entities\PowerConsumerComponent.cs" />
     <Compile Include="Entities\Psu.cs" />
+    <Compile Include="Models\HomeModels\ConfigurationFormModel.cs" />
+    <Compile Include="Models\HomeModels\HomeIndexModel.cs" />
     <Compile Include="Repositories\IConfigurationRepository.cs" />
     <Compile Include="Repositories\IHarddriveRepository.cs" />
     <Compile Include="Repositories\Mongo\ConfigurationRepository.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Repositories\Mongo\GpuRepository.cs" />
     <Compile Include="Repositories\Mongo\MongoRepository.cs" />
     <Compile Include="Service\ICaseService.cs" />
+    <Compile Include="Service\IConfigurationFacade.cs" />
     <Compile Include="Service\IHarddriveService.cs" />
     <Compile Include="Service\IMotherboardService.cs" />
     <Compile Include="Service\IMemoryService.cs" />
@@ -195,14 +198,15 @@
     <Compile Include="Service\ICpuService.cs" />
     <Compile Include="Service\IGpuService.cs" />
     <Compile Include="Service\IService.cs" />
-    <Compile Include="Service\Mongo\HarddriveService.cs" />
-    <Compile Include="Service\Mongo\ConfigurationService.cs" />
-    <Compile Include="Service\Mongo\MotherboardService.cs" />
-    <Compile Include="Service\Mongo\CaseService.cs" />
-    <Compile Include="Service\Mongo\PsuService.cs" />
-    <Compile Include="Service\Mongo\MemoryService.cs" />
-    <Compile Include="Service\Mongo\CpuService.cs" />
-    <Compile Include="Service\Mongo\GpuService.cs" />
+    <Compile Include="Service\Implementation\ConfigurationFacade.cs" />
+    <Compile Include="Service\Implementation\HarddriveService.cs" />
+    <Compile Include="Service\Implementation\ConfigurationService.cs" />
+    <Compile Include="Service\Implementation\MotherboardService.cs" />
+    <Compile Include="Service\Implementation\CaseService.cs" />
+    <Compile Include="Service\Implementation\PsuService.cs" />
+    <Compile Include="Service\Implementation\MemoryService.cs" />
+    <Compile Include="Service\Implementation\CpuService.cs" />
+    <Compile Include="Service\Implementation\GpuService.cs" />
     <Compile Include="Service\Service.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -217,9 +221,12 @@
     <None Include="Properties\PublishProfiles\422783 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\422783 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.bootstrap.wizard.min.js" />
+    <Content Include="Scripts\jquery.json.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -237,7 +244,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -251,7 +260,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\HomeModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

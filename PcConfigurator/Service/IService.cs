@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PcConfigurator.Entities;
 
 namespace PcConfigurator.Service
@@ -9,6 +10,6 @@ namespace PcConfigurator.Service
         void Insert(TEntity dto);
         void Update(TEntity dto);
         void Delete(string id);
-        IList<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll();
     }
 }

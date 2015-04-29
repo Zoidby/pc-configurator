@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PcConfigurator.Entities;
+using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
 namespace PcConfigurator.Controllers
@@ -9,61 +12,88 @@ namespace PcConfigurator.Controllers
     {
         private readonly ICaseService _caseService;
         private readonly ICpuService _cpuService;
-        private readonly IGpuService _gpuService;
-        private readonly IHarddriveService _harddriveService;
-        private readonly IMemoryService _memoryService;
-        private readonly IMotherboardService _motherboardService;
-        private readonly IPsuService _psuService;
-        private IConfigurationService _configurationService;
 
-        public HomeController(IConfigurationService configurationService, IPsuService psuService,
-            ICaseService caseService, ICpuService cpuService, IGpuService gpuService, IMemoryService memoryService,
-            IMotherboardService motherboardService, IHarddriveService harddriveService)
+        public HomeController(ICaseService caseService, ICpuService cpuService)
         {
-            _configurationService = configurationService;
-            _psuService = psuService;
             _caseService = caseService;
             _cpuService = cpuService;
-            _gpuService = gpuService;
-            _memoryService = memoryService;
-            _motherboardService = motherboardService;
-            _harddriveService = harddriveService;
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
+            var model = new ConfigurationFormModel
+            {
+                CpuBrandList = _cpuService.GetCpuBrands()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(ConfigurationFormModel model)
+        {
+            var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand);
+            Debug.WriteLine(JsonConvert.SerializeObject(output));
+            return Json(output);
+        }
+
+        [HttpPost]
+        public ActionResult LoadCpuSockets(ConfigurationFormModel model)
+        {
+            var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand).Select(c => new { text = c, value = c });
+            Debug.WriteLine(JsonConvert.SerializeObject(output));
+            return Json(output);
+        }
+
+        [HttpPost]
+        public ActionResult LoadCpus(ConfigurationFormModel model)
+        {
+            var output = _cpuService.GetCpusBySocket(model.CpuSocket).Select(c => new { text = c.Name, value = c.Id });
+            Debug.WriteLine(JsonConvert.SerializeObject(output));
+            return Json(output);
+        }
+    }
+}
+
+
+
+
 //            var caseDto = new Case
 //            {
-//                Brand = "Corsair",
-//                Name = "300R",
-//                MotherboardCompatibility = new List<string> {"ATX", "mATX"}
+//                Brand = "Fractal Design",
+//                Name = "DEFINE R4",
+//                MotherboardCompatibility = new List<string> {"mATX"}
 //            };
 //            _caseService.Insert(caseDto);
 //            var motherboardDto = new Motherboard
 //            {
-//                Brand = "Asus",
+//                Brand = "Gigabyte",
 //                MemoryMaximum = 16,
 //                MemorySlots = 4,
-//                Name = "p8z77-v lx",
-//                Socket = "LGA1155",
-//                PowerConsumption = 20
+//                Name = "GA-880GM-USB3",
+//                Socket = "AM3",
+//                PowerConsumption = 20,
+//                ExpansionSlots = new List<string> {"PCI Express 16.0"},
+//                Format = "mATX",
+//                HarddriveInterfaces = new List<string> {"SATA II"}
 //            };
 //            _motherboardService.Insert(motherboardDto);
 //            var cpuDto = new Cpu
 //            {
-//                Brand = "Intel",
-//                Name = "i5-3570k",
+//                Brand = "AMD",
+//                Name = "Phenom II",
 //                PowerConsumption = 70,
-//                Socket = "LGA1155"
+//                Socket = "AM3"
 //            };
 //            _cpuService.Insert(cpuDto);
 //            var gpuDto = new Gpu
 //            {
-//                Brand = "EVGA",
-//                ChipsetManufacturer = "NVIDIA",
-//                Interface = "",
-//                Name = "GTX 770 SC",
-//                PowerConsumption = 200
+//                Brand = "MSI",
+//                ChipsetManufacturer = "AMD",
+//                ExpansionSlot = "PCI Express 16.0",
+//                Name = "HD7850",
+//                PowerConsumption = 150
 //            };
 //            _gpuService.Insert(gpuDto);
 //            var memoryDto = new Memory
@@ -72,28 +102,30 @@ namespace PcConfigurator.Controllers
 //                Count = 2,
 //                Name = "Hyperx Blu",
 //                PowerConsumption = 20,
-//                TotalCapacity = 8
+//                TotalCapacity = 4
 //            };
 //            _memoryService.Insert(memoryDto);
 //            var hddDto = new Harddrive
 //            {
-//                Brand = "Seagate",
-//                Name = "Barracuda",
-//                Interface = "",
+//                Brand = "Western Digital",
+//                Name = "Black",
+//                Interface = "SATA II",
 //                PowerConsumption = 8
 //            };
 //            _harddriveService.Insert(hddDto);
 //            var psuDto = new Psu
 //            {
 //                Brand = "SuperFlower",
-//                Name = "Awesome",
-//                Efficiency = 97,
-//                MaximumPower = 1050
+//                Name = "Not so Awesome",
+//                Efficiency = 95,
+//                MaximumPower = 400
 //            };
 //            _psuService.Insert(psuDto);
 
-
-//            var configurationDto = new ConfigurationDto
+//
+//            Debug.WriteLine("HI!!!!");
+//
+//            var configuration = new Configuration
 //            {
 //                Case = _caseService.GetAll().First(),
 //                Cpu = _cpuService.GetAll().First(),
@@ -104,8 +136,10 @@ namespace PcConfigurator.Controllers
 //                Psu = _psuService.GetAll().First()
 //            };
 //
-//            _configurationService.Insert(configurationDto);
-            return View();
-        }
-    }
-}
+//
+//            _gpuService.GetValidGpus(configuration).ForEach(p => Debug.WriteLine(p));
+//            _harddriveService.GetValidHarddrives(configuration).ForEach(p => Debug.WriteLine(p));
+//            _motherboardService.GetValidMotherboards(configuration).ForEach(p => Debug.WriteLine(p));
+//            //_psuService.GetValidPsus(configuration).ForEach(p => Debug.WriteLine(p));
+//
+//            _configurationService.Insert(configuration);

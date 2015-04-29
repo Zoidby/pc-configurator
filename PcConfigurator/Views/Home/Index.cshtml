@@ -1,36 +1,131 @@
-﻿@{
+﻿@model PcConfigurator.Models.HomeModels.ConfigurationFormModel
+
+@{
     ViewBag.Title = "Home Page";
+
+    IList<SelectListItem> cpuBrandSelectItems = null;
+    IList<SelectListItem> cpuSocketSelectItems = new List<SelectListItem>();
+    IList<SelectListItem> cpuSelectItems = new List<SelectListItem>();
+
+    if (this.Model.CpuBrandList != null)
+    {
+        cpuBrandSelectItems = this.Model.CpuBrandList
+            .Select(s => new SelectListItem() { Text = s, Value = s })
+            .ToList();
+    }
 }
+<br />
+<section id="wizard">
+    <div id="tabsleft" class="tabbable tabs-left">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <ul class="nav nav-pills nav-justified">
+                    <li><a href="#tabsleft-tab1" data-toggle="tab">Cpu</a></li>
+                    <li><a href="#tabsleft-tab2" data-toggle="tab">Memory</a></li>
+                    <li><a href="#tabsleft-tab3" data-toggle="tab">Storage</a></li>
+                    <li><a href="#tabsleft-tab4" data-toggle="tab">Gpu</a></li>
+                    <li><a href="#tabsleft-tab5" data-toggle="tab">Motherboard</a></li>
+                    <li><a href="#tabsleft-tab6" data-toggle="tab">Psu</a></li>
+                    <li><a href="#tabsleft-tab7" data-toggle="tab">Case</a></li>
+                    <li><a href="#tabsleft-tab8" data-toggle="tab">Validation</a></li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <form id="configurationForm" name="configurationForm" action="@Request.Url.AbsoluteUri" method="POST">
+                        <br />
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tabsleft-tab1">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-offset-3">
+                                                    @Html.DropDownList("CpuBrand", cpuBrandSelectItems, "Brand", new {@class = "form-control", @data_url = @Url.Action("LoadCpuSockets")})
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-offset-3">
+                                                    @Html.DropDownList("CpuSocket", new List<SelectListItem>(), "Socket", new { @class = "form-control", @data_url = @Url.Action("LoadCpus"), @style = "display:none;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-offset-3">
+                                                    @Html.DropDownList("CpuId", new List<SelectListItem>(), "Cpu", new { @class = "form-control", @data_url = @Url.Action("LoadCpuSockets"), @style = "display:none;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab2">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab3">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab4">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab5">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab6">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab7">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabsleft-tab8">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        Validation: woot woot
+                                    </div>
+                                </div>
+                            </div>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p>
-            <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
-        </p>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <ul class="pager wizard">
+                                        <li class="previous"><a href="javascript:;">Previous</a></li>
+                                        <li class="next"><a href="javascript:;">Next</a></li>
+                                        <li class="next finish" style="display: none;"><a href="javascript:;">Finish</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div id="bar" class="progress progress-info progress-striped active">
+                        <div class="progress-bar progress-bar-warning @this.Model.Message" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p>
-            <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p>
-            <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a>
-        </p>
-    </div>
-</div>
+</section>

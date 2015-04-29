@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using PcConfigurator.Entities;
 using PcConfigurator.Models.GpuModels;
 using PcConfigurator.Service;
@@ -16,7 +17,7 @@ namespace PcConfigurator.Controllers
 
         public ActionResult Index()
         {
-            var model = new GpuIndexModel {GpuList = _service.GetAll()};
+            var model = new GpuIndexModel {GpuList = _service.GetAll().ToList()};
             return View(model);
         }
 

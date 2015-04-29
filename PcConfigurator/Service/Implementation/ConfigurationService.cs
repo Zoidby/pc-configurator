@@ -3,7 +3,7 @@ using System.Linq;
 using PcConfigurator.Entities;
 using PcConfigurator.Repositories;
 
-namespace PcConfigurator.Service.Mongo
+namespace PcConfigurator.Service.Implementation
 {
     public class ConfigurationService : Service<Configuration>, IConfigurationService
     {
@@ -25,7 +25,7 @@ namespace PcConfigurator.Service.Mongo
                 config.Memory,
                 config.Motherboard
             };
-            return pcs.Sum(pc => pc.PowerConsumption);
+            return pcs.Where(pc => pc != null).Sum(pc => pc.PowerConsumption);
         }
     }
 }

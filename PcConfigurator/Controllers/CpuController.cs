@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using PcConfigurator.Entities;
 using PcConfigurator.Models.CpuModels;
 using PcConfigurator.Service;
@@ -28,7 +29,7 @@ namespace PcConfigurator.Controllers
 
         public ViewResult Index()
         {
-            var model = new CpuIndexModel {CpuList = _service.GetAll()};
+            var model = new CpuIndexModel {CpuList = _service.GetAll().ToList()};
             return View(model);
         }
 

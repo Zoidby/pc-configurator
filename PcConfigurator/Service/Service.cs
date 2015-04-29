@@ -30,9 +30,9 @@ namespace PcConfigurator.Service
             _repo.Delete(id);
         }
 
-        public virtual IList<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
-            return _repo.GetAll().ToList();
+            return _repo.GetAll().AsEnumerable();
         }
 
         public virtual void Update(TEntity dto)

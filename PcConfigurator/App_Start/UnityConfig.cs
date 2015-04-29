@@ -6,7 +6,7 @@ using MongoDB.Driver;
 using PcConfigurator.Repositories;
 using PcConfigurator.Repositories.Mongo;
 using PcConfigurator.Service;
-using PcConfigurator.Service.Mongo;
+using PcConfigurator.Service.Implementation;
 
 namespace PcConfigurator.App_Start
 {
@@ -63,6 +63,7 @@ namespace PcConfigurator.App_Start
             container.RegisterType<ICaseService, CaseService>();
             container.RegisterType<IHarddriveService, HarddriveService>();
             container.RegisterType<IConfigurationService, ConfigurationService>();
+            container.RegisterType<IConfigurationFacade, ConfigurationFacade>();
 
             #endregion
         }

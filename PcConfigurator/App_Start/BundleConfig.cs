@@ -21,8 +21,7 @@ namespace PcConfigurator
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/respond.js",
-                "~/Scripts/jquery.bootstrap.wizard.min.js"));
+                "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include("~/Scripts/custom.js"));
 

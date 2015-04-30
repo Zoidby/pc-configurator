@@ -1,30 +1,57 @@
 ﻿$(document).ready(function () {
-    $('#tabsleft').bootstrapWizard({
-        'tabClass': 'nav nav-pills', 'debug': false,
-        onShow: function (tab, navigation, index) {
-        }, onNext: function (tab, navigation, index) {
-        }, onPrevious: function (tab, navigation, index) {
-        }, onTabClick: function (tab, navigation, index) {
-        }, onTabShow: function (tab, navigation, index) {
-            var $total = navigation.find('li').length;
-            var $current = index + 1;
-            var $percent = ($current / $total) * 100;
-            $('#tabsleft .progress-bar').css({ width: $percent + '%' });
-            // If it's the last tab then hide the last button and show the finish instead
-            if ($current >= $total) {
-                $('#tabsleft').find('.pager .next').hide();
-                $('#tabsleft').find('.pager .finish').show();
-                $('#tabsleft').find('.pager .finish').removeClass('disabled');
-            } else {
-                $('#tabsleft').find('.pager .next').show();
-                $('#tabsleft').find('.pager .finish').hide();
-            }
+//    $('#tabsleft').bootstrapWizard({
+//        'tabClass': 'nav nav-pills', 'debug': false,
+//        onShow: function (tab, navigation, index) {
+//        }, onNext: function (tab, navigation, index) {
+//        }, onPrevious: function (tab, navigation, index) {
+//        }, onTabClick: function (tab, navigation, index) {
+//        }, onTabShow: function (tab, navigation, index) {
+//            var $total = navigation.find('li').length;
+//            var $current = index + 1;
+//            var $percent = ($current / $total) * 100;
+//            $('.progress-bar').css({ width: $percent + '%' });
+//            // If it's the last tab then hide the last button and show the finish instead
+//            if ($current >= $total) {
+//                $('#tabsleft').find('.pager .next').hide();
+//                $('#tabsleft').find('.pager .finish').show();
+//                $('#tabsleft').find('.pager .finish').removeClass('disabled');
+//                $(".progress-bar").removeClass("progress-bar-warning");
+//                $(".progress-bar").addClass("progress-bar-success");
+//            } else {
+//                $('#tabsleft').find('.pager .next').show();
+//                $('#tabsleft').find('.pager .finish').hide();
+//                $(".progress-bar").addClass("progress-bar-warning");
+//                $(".progress-bar").removeClass("progress-bar-success");
+//            }
+//        }
+//    });
+
+
+    var navListItems = $('ul.setup-panel li a'),
+        allWells = $('.setup-content');
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+            $item = $(this).closest('li');
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.closest('li').removeClass('active');
+            $item.addClass('active');
+            allWells.hide();
+            $target.show();
         }
     });
 
-    $('#tabsleft .finish').unbind('click').click(function () {
-        myAjax($("#configurationForm").attr('action'), $("#configurationForm").serialize(), function(data) { console.log(data); }, function(data) {});
-        return false;
+    $('ul.setup-panel li.active a').trigger('click');
+
+    // DEMO ONLY //
+    $('#activate-step-2').on('click', function(e) {
+        $('ul.setup-panel li:eq(1)').removeClass('disabled');
+        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+        $(this).remove();
     });
 });
 

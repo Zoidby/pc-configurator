@@ -15,117 +15,136 @@
     }
 }
 <br />
-<section id="wizard">
-    <div id="tabsleft" class="tabbable tabs-left">
-        <div class="row">
-            <div class="col-sm-8 col-sm-offset-2">
-                <ul class="nav nav-pills nav-justified">
-                    <li><a href="#tabsleft-tab1" data-toggle="tab">Cpu</a></li>
-                    <li><a href="#tabsleft-tab2" data-toggle="tab">Memory</a></li>
-                    <li><a href="#tabsleft-tab3" data-toggle="tab">Storage</a></li>
-                    <li><a href="#tabsleft-tab4" data-toggle="tab">Gpu</a></li>
-                    <li><a href="#tabsleft-tab5" data-toggle="tab">Motherboard</a></li>
-                    <li><a href="#tabsleft-tab6" data-toggle="tab">Psu</a></li>
-                    <li><a href="#tabsleft-tab7" data-toggle="tab">Case</a></li>
-                    <li><a href="#tabsleft-tab8" data-toggle="tab">Validation</a></li>
-                </ul>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-                    <form id="configurationForm" name="configurationForm" action="@Request.Url.AbsoluteUri" method="POST">
-                        <br />
-                        <div class="tab-content">
-                            <div class="tab-pane" id="tabsleft-tab1">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-6 col-md-offset-3">
-                                                    @Html.DropDownList("CpuBrand", cpuBrandSelectItems, "Brand", new {@class = "form-control", @data_url = @Url.Action("LoadCpuSockets")})
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-6 col-md-offset-3">
-                                                    @Html.DropDownList("CpuSocket", new List<SelectListItem>(), "Socket", new { @class = "form-control", @data_url = @Url.Action("LoadCpus"), @style = "display:none;" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-6 col-md-offset-3">
-                                                    @Html.DropDownList("CpuId", new List<SelectListItem>(), "Cpu", new { @class = "form-control", @data_url = @Url.Action("LoadCpuSockets"), @style = "display:none;" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab2">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab3">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab4">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab5">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab6">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab7">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabsleft-tab8">
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        Validation: woot woot
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <ul class="pager wizard">
-                                        <li class="previous"><a href="javascript:;">Previous</a></li>
-                                        <li class="next"><a href="javascript:;">Next</a></li>
-                                        <li class="next finish" style="display: none;"><a href="javascript:;">Finish</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-                    <div id="bar" class="progress progress-info progress-striped active">
-                        <div class="progress-bar progress-bar-warning @this.Model.Message" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                    </div>
-                </div>
+<section id="wizard">
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                <li class="active">
+                    <a href="#step-1">
+                        <h4 class="list-group-item-heading">CPU</h4>
+                        <!--<p class="list-group-item-text">First step description</p>-->
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-2">
+                        <h4 class="list-group-item-heading">Memory</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-3">
+                        <h4 class="list-group-item-heading">Storage</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-4">
+                        <h4 class="list-group-item-heading">GPU</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-5">
+                        <h4 class="list-group-item-heading">Motherboard</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-6">
+                        <h4 class="list-group-item-heading">PSU</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-7">
+                        <h4 class="list-group-item-heading">Case</h4>
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="#step-8">
+                        <h4 class="list-group-item-heading">Confirm</h4>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-12">
+            <div id="bar" class="progress progress-info progress-striped active">
+                <div class="progress-bar progress-bar-warning @this.Model.Message" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
             </div>
         </div>
     </div>
+    <form id="configurationForm" name="configurationForm" action="@Request.Url.AbsoluteUri" method="POST">
+
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12 well text-center">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <div class="row form-group">
+                                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                                    @Html.DropDownList("CpuBrand", cpuBrandSelectItems, "Brand", new { @class = "form-control", @data_url = @Url.Action("LoadCpuSockets") })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                                    @Html.DropDownList("CpuSocket", Enumerable.Empty<SelectListItem>(), "Socket", new { @class = "form-control", @data_url = @Url.Action("LoadCpus"), @style = "display:none;" })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                                    @Html.DropDownList("CpuId", Enumerable.Empty<SelectListItem>(), "Cpu", new { @class = "form-control", @data_url = @Url.Action("LoadCpuSockets"), @style = "display:none;" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="activate-step-2" class="btn btn-primary btn-lg">Activate Step 2</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 2</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-3">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-4">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-5">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-6">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-7">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-8">
+            <div class="col-xs-12">
+                <div class="col-md-12 well">
+                    <h1 class="text-center"> STEP 3</h1>
+                </div>
+            </div>
+        </div>
+    </form>
 </section>

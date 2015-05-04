@@ -61,9 +61,8 @@ namespace PcConfigurator.App_Start
             container.RegisterType<IPsuService, PsuService>();
             container.RegisterType<IMotherboardService, MotherboardService>();
             container.RegisterType<ICaseService, CaseService>();
-            container.RegisterType<IHarddriveService, HarddriveService>();
+            container.RegisterType<IStorageService, StorageService>();
             container.RegisterType<IConfigurationService, ConfigurationService>();
-            container.RegisterType<IConfigurationFacade, ConfigurationFacade>();
 
             #endregion
         }

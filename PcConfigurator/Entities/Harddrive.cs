@@ -3,5 +3,6 @@
     public class Harddrive : PowerConsumerComponent
     {
         public string Interface { get; set; }
+        public int Capacity { get; set; }
     }
 }

@@ -1,0 +1,20 @@
+﻿<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MotherboardFormat", Enumerable.Empty<SelectListItem>(), "Format", new { @class = "form-control", @data_url = @Url.Action("LoadMotherboardBrand", "Motherboard") })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MotherboardBrand", Enumerable.Empty<SelectListItem>(), "Brand", new { @class = "form-control", @data_url = @Url.Action("LoadMotherboardId", "Motherboard"), @style = "display:none;" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MotherboardId", Enumerable.Empty<SelectListItem>(), "Model", new { @class = "form-control", @data_url = @Url.Action("LoadMotherboard", "Motherboard"), @style = "display:none;" })
+            </div>
+        </div>
+    </div>
+</div>
+<div id="MotherboardView"></div>

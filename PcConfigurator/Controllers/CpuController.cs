@@ -1,35 +1,54 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PcConfigurator.Entities;
 using PcConfigurator.Models.CpuModels;
+using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
 namespace PcConfigurator.Controllers
 {
     public class CpuController : Controller
     {
-        private readonly ICpuService _service;
+        private readonly ICpuService _cpuService;
 
-        public CpuController(ICpuService service)
+        public CpuController(ICpuService cpuService)
         {
-            _service = service;
+            _cpuService = cpuService;
+        }
+
+        [HttpPost]
+        public ActionResult LoadCpuSocket(ConfigurationFormModel model)
+        {
+            var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand).Select(c => new { text = c, value = c });
+            //Debug.WriteLine(JsonConvert.SerializeObject(output));
+            return Json(output);
+        }
+
+        [HttpPost]
+        public ActionResult LoadCpuId(ConfigurationFormModel model)
+        {
+            var output = _cpuService.GetCpusBySocket(model.CpuSocket).Select(c => new { text = c.Name, value = c.Id });
+            //Debug.WriteLine(JsonConvert.SerializeObject(output));
+            return Json(output);
         }
 
         public ViewResult Single(string id)
         {
-            var model = new CpuSingleModel {Entity = _service.GetById(id)};
+            var model = new CpuSingleModel {Entity = _cpuService.GetById(id)};
             return View(model);
         }
 
         public ActionResult Remove(string id)
         {
-            _service.Delete(id);
+            _cpuService.Delete(id);
             return RedirectToAction("Index");
         }
 
         public ViewResult Index()
         {
-            var model = new CpuIndexModel {CpuList = _service.GetAll().ToList()};
+            var model = new CpuIndexModel {CpuList = _cpuService.GetAll().ToList()};
             return View(model);
         }
 
@@ -52,10 +71,17 @@ namespace PcConfigurator.Controllers
                     Socket = model.Socket,
                     Name = model.Name
                 };
-                _service.Insert(cpuToAdd);
+                _cpuService.Insert(cpuToAdd);
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult LoadCpu(string id)
+        {
+            Debug.WriteLine(id);
+            return PartialView("_Cpu", _cpuService.GetById(id));
         }
     }
 }

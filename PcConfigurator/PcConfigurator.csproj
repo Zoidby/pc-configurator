@@ -145,6 +145,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\CaseController.cs" />
+    <Compile Include="Controllers\PsuController.cs" />
+    <Compile Include="Controllers\MotherboardController.cs" />
+    <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Controllers\MemoryController.cs" />
     <Compile Include="Controllers\CpuController.cs" />
     <Compile Include="Controllers\GpuController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -189,8 +194,7 @@
     <Compile Include="Repositories\Mongo\GpuRepository.cs" />
     <Compile Include="Repositories\Mongo\MongoRepository.cs" />
     <Compile Include="Service\ICaseService.cs" />
-    <Compile Include="Service\IConfigurationFacade.cs" />
-    <Compile Include="Service\IHarddriveService.cs" />
+    <Compile Include="Service\IStorageService.cs" />
     <Compile Include="Service\IMotherboardService.cs" />
     <Compile Include="Service\IMemoryService.cs" />
     <Compile Include="Service\IConfigurationService.cs" />
@@ -198,8 +202,7 @@
     <Compile Include="Service\ICpuService.cs" />
     <Compile Include="Service\IGpuService.cs" />
     <Compile Include="Service\IService.cs" />
-    <Compile Include="Service\Implementation\ConfigurationFacade.cs" />
-    <Compile Include="Service\Implementation\HarddriveService.cs" />
+    <Compile Include="Service\Implementation\StorageService.cs" />
     <Compile Include="Service\Implementation\ConfigurationService.cs" />
     <Compile Include="Service\Implementation\MotherboardService.cs" />
     <Compile Include="Service\Implementation\CaseService.cs" />
@@ -256,6 +259,20 @@
     <Content Include="Views\Cpu\Single.cshtml" />
     <Content Include="Views\Gpu\Add.cshtml" />
     <Content Include="Views\Gpu\Index.cshtml" />
+    <Content Include="Views\Cpu\_Cpu.cshtml" />
+    <Content Include="Views\Gpu\_Gpu.cshtml" />
+    <Content Include="Views\Storage\_Storage.cshtml" />
+    <Content Include="Views\Memory\_Memory.cshtml" />
+    <Content Include="Views\Motherboard\_Motherboard.cshtml" />
+    <Content Include="Views\Psu\_Psu.cshtml" />
+    <Content Include="Views\Case\_Case.cshtml" />
+    <Content Include="Views\Cpu\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Gpu\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Memory\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Motherboard\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Psu\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Storage\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Case\_DropdownListGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,18 @@
+﻿@model PcConfigurator.Entities.Case
+<hr />
+<div class="row vcenter">
+    <div class="col-xs-10 col-md-5">
+        <div class="panel panel-success">
+            <div class="panel-heading">@this.Model.Brand @this.Model.Name</div>
+            <table class="table table-hover">
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MotherboardCompatibility)</td>
+                    <td>@Html.DisplayFor(model => model.MotherboardCompatibility)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-2 col-md-1">
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    </div>
+</div>

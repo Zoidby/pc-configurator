@@ -1,0 +1,31 @@
+﻿@model PcConfigurator.Models.HomeModels.ConfigurationFormModel
+@{
+    IList<SelectListItem> gpuManufacturerSelectItems = Enumerable.Empty<SelectListItem>() as IList<SelectListItem>;
+    if (Model.CpuBrandList != null)
+    {
+        gpuManufacturerSelectItems = Model.GpuManufacturerList
+            .Select(s => new SelectListItem { Text = s, Value = s })
+            .ToList();
+    }
+}
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("GpuManufacturer", gpuManufacturerSelectItems, "Manufacturer", new { @class = "form-control", @data_url = @Url.Action("LoadGpuBrand", "Gpu") })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("GpuBrand", Enumerable.Empty<SelectListItem>(), "Brand", new { @class = "form-control", @data_url = @Url.Action("LoadGpuId", "Gpu"), @style = "display:none;" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("GpuId", Enumerable.Empty<SelectListItem>(), "Model", new { @class = "form-control", @data_url = @Url.Action("LoadGpu", "Gpu"), @style = "display:none;" })
+            </div>
+        </div>
+    </div>
+</div>
+<div id="GpuView"></div>

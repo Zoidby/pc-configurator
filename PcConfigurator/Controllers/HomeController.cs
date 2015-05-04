@@ -10,21 +10,29 @@ namespace PcConfigurator.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICaseService _caseService;
         private readonly ICpuService _cpuService;
+        private readonly IGpuService _gpuService;
+        private readonly IMemoryService _memoryService;
+        private readonly IStorageService _storageService;
 
-        public HomeController(ICaseService caseService, ICpuService cpuService)
+        public HomeController( ICpuService cpuService, IGpuService gpuService, IMemoryService memoryService, IStorageService storageService)
         {
-            _caseService = caseService;
             _cpuService = cpuService;
+            _gpuService = gpuService;
+            _memoryService = memoryService;
+            _storageService = storageService;
         }
 
         [HttpGet]
+        [OutputCache(Duration = 60)]
         public ActionResult Index()
         {
             var model = new ConfigurationFormModel
             {
-                CpuBrandList = _cpuService.GetCpuBrands()
+                CpuBrandList = _cpuService.GetCpuBrands(),
+                MemoryCapacityList = _memoryService.GetMemoryCapacities(),
+                StorageCapacityList = _storageService.GetStorageCapacities(),
+                GpuManufacturerList = _gpuService.GetGpuManufacturers()
             };
 
             return View(model);
@@ -33,26 +41,22 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Index(ConfigurationFormModel model)
         {
-            var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand);
-            Debug.WriteLine(JsonConvert.SerializeObject(output));
-            return Json(output);
+            //crazy validation
+            return Json("");
         }
 
-        [HttpPost]
-        public ActionResult LoadCpuSockets(ConfigurationFormModel model)
-        {
-            var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand).Select(c => new { text = c, value = c });
-            Debug.WriteLine(JsonConvert.SerializeObject(output));
-            return Json(output);
-        }
 
-        [HttpPost]
-        public ActionResult LoadCpus(ConfigurationFormModel model)
-        {
-            var output = _cpuService.GetCpusBySocket(model.CpuSocket).Select(c => new { text = c.Name, value = c.Id });
-            Debug.WriteLine(JsonConvert.SerializeObject(output));
-            return Json(output);
-        }
+        
+
+        
+
+        
+
+        
+
+      
+
+        
     }
 }
 

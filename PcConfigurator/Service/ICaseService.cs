@@ -7,8 +7,8 @@ namespace PcConfigurator.Service
     public interface ICaseService : IService<Case>
     {
         IEnumerable<Case> GetValidCases(ConfigurationFormModel model);
-        IEnumerable<string> GetCaseFormats();
-
-        IEnumerable<string> GetCaseBrandsByFormat(string format);
+        IEnumerable<string> GetCaseBrandByConfiguration(ConfigurationFormModel model);
+        IEnumerable<Case> GetCasesByConfiguration(ConfigurationFormModel model);
+        IEnumerable<string> GetCaseBrandsByFormat(string motherboardFormat);
     }
 }

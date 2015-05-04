@@ -26,9 +26,9 @@ namespace PcConfigurator.Service.Implementation
 //            {
 //                result = result.Where(c => c.MotherboardCompatibility.Contains(model.MotherboardFormat));
 //            }
-            if (!string.IsNullOrEmpty(model.CaseFormat))
+            if (!string.IsNullOrEmpty(model.MotherboardFormat))
             {
-                result = result.Where(c => c.MotherboardCompatibility.Contains(model.CaseFormat));
+                result = result.Where(c => c.MotherboardCompatibility.Contains(model.MotherboardFormat));
             }
             if (!string.IsNullOrEmpty(model.CaseBrand))
             {
@@ -36,6 +36,25 @@ namespace PcConfigurator.Service.Implementation
             }
 
             return result.AsEnumerable();
+        }
+
+        public IEnumerable<string> GetCaseBrandByConfiguration(ConfigurationFormModel model)
+        {
+            return
+                _repo.GetAll()
+                    .Where(c => c.MotherboardCompatibility.Contains(model.MotherboardFormat))
+                    .Select(c => c.Brand)
+                    .Distinct()
+                    .AsEnumerable();
+        }
+
+        public IEnumerable<Case> GetCasesByConfiguration(ConfigurationFormModel model)
+        {
+            return
+                _repo.GetAll()
+                    .Where(
+                        c => model.CaseBrand == c.Brand && c.MotherboardCompatibility.Contains(model.MotherboardFormat))
+                    .AsEnumerable();
         }
 
         public IEnumerable<string> GetCaseFormats()
@@ -50,7 +69,6 @@ namespace PcConfigurator.Service.Implementation
                     .Select(c => c.Brand)
                     .AsEnumerable()
                     .Distinct();
-            Debug.WriteLine(JsonConvert.SerializeObject(result));
             return result;
         } 
     }

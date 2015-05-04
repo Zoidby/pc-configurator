@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PcConfigurator.Entities;
+using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Repositories;
 
 namespace PcConfigurator.Service.Implementation
@@ -26,6 +27,11 @@ namespace PcConfigurator.Service.Implementation
                 config.Motherboard
             };
             return pcs.Where(pc => pc != null).Sum(pc => pc.PowerConsumption);
+        }
+
+        public int GetTotalConsumption(ConfigurationFormModel dto)
+        {
+            return 0;
         }
     }
 }

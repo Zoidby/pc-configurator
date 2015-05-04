@@ -1,0 +1,31 @@
+﻿@model PcConfigurator.Models.HomeModels.ConfigurationFormModel
+@{
+    IList<SelectListItem> storageCapacitySelectItems = Enumerable.Empty<SelectListItem>() as IList<SelectListItem>;
+    if (Model.CpuBrandList != null)
+    {
+        storageCapacitySelectItems = Model.StorageCapacityList
+            .Select(s => new SelectListItem { Text = s + " GB", Value = s.ToString() })
+            .ToList();
+    }
+}
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("StorageCapacity", storageCapacitySelectItems, "Capacity", new { @class = "form-control", @data_url = @Url.Action("LoadStorageBrand", "Storage") })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("StorageBrand", Enumerable.Empty<SelectListItem>(), "Brand", new { @class = "form-control", @data_url = @Url.Action("LoadStorageId", "Storage"), @style = "display:none;" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("StorageId", Enumerable.Empty<SelectListItem>(), "Model", new { @class = "form-control", @data_url = @Url.Action("LoadStorage", "Storage"), @style = "display:none;" })
+            </div>
+        </div>
+    </div>
+</div>
+<div id="StorageView"></div>

@@ -1,0 +1,32 @@
+﻿@model PcConfigurator.Models.HomeModels.ConfigurationFormModel
+@{
+    IList<SelectListItem> memoryCapacitySelectItems = Enumerable.Empty<SelectListItem>() as IList<SelectListItem>;
+    if (Model.CpuBrandList != null)
+    {
+        memoryCapacitySelectItems = Model.MemoryCapacityList
+            .Select(s => new SelectListItem { Text = s + " GB", Value = s.ToString() })
+            .ToList();
+    }
+}
+
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MemoryCapacity", memoryCapacitySelectItems, "Capacity", new {@class = "form-control", @data_url = @Url.Action("LoadMemoryBrand", "Memory")})
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MemoryBrand", Enumerable.Empty<SelectListItem>(), "Brand", new {@class = "form-control", @data_url = @Url.Action("LoadMemoryId", "Memory"), @style = "display:none;"})
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                @Html.DropDownList("MemoryId", Enumerable.Empty<SelectListItem>(), "Model", new {@class = "form-control", @data_url = @Url.Action("LoadMemory", "Memory"), @style = "display:none;"})
+            </div>
+        </div>
+    </div>
+</div>
+<div id="MemoryView"></div>

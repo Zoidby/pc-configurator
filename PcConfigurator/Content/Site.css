@@ -19,21 +19,27 @@
 }
 
 
-#wizard #bar {
-    -ms-border-top-right-radius: 0;
-    border-top-right-radius: 0;
-    -ms-border-top-left-radius: 0;
-    border-top-left-radius: 0;
-    border: 1px solid #464545;
-    height: 20px;
-    background: none;
+#wizard .progress {
+    height: 1.4em;
 }
 
 #wizard .setup-panel {
-    -ms-border-bottom-left-radius: 0;
-    border-bottom-left-radius: 0;
-    -ms-border-bottom-right-radius: 0;
-    border-bottom-right-radius: 0;
     border-bottom: 0;
     margin-bottom: 0;
+}
+
+#wizard .well {
+    padding-bottom: 0;
+}
+
+.vcenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.glyphicon-ok-sign {
+    color: #43ac6a;
+    font-size: 64pt;
 }

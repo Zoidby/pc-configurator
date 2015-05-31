@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.CpuModels;
 using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
@@ -40,5 +39,53 @@ namespace PcConfigurator.Controllers
             Debug.WriteLine(id);
             return PartialView("_Memory", _memoryService.GetById(id));
         }
+
+        //index,details,edit,delete,create
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View(_memoryService.GetAll());
+        }
+
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            return View(_memoryService.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new Memory());
+        }
+
+        [HttpPost]
+        public ActionResult Create(Memory memory)
+        {
+            _memoryService.Insert(memory);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            _memoryService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            return View(_memoryService.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Memory memory)
+        {
+            _memoryService.Update(memory);
+            return RedirectToAction("Index");
+        }
+
     }
 }

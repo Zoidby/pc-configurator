@@ -1,11 +1,11 @@
-﻿@model IEnumerable<PcConfigurator.Entities.Gpu>
+﻿@model IEnumerable<PcConfigurator.Entities.Harddrive>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
 }
 
-<h2>Gpu</h2>
+<h2>Storage</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -22,10 +22,10 @@
             @Html.DisplayNameFor(model => model.PowerConsumption)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ExpansionSlot)
+            @Html.DisplayNameFor(model => model.Interface)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ChipsetManufacturer)
+            @Html.DisplayNameFor(model => model.Capacity)
         </th>
         <th></th>
     </tr>
@@ -42,10 +42,10 @@
             @Html.DisplayFor(modelItem => item.PowerConsumption)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ExpansionSlot)
+            @Html.DisplayFor(modelItem => item.Interface)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ChipsetManufacturer)
+            @Html.DisplayFor(modelItem => item.Capacity)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

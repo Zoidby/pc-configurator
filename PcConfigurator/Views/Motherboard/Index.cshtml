@@ -1,11 +1,11 @@
-﻿@model IEnumerable<PcConfigurator.Entities.Gpu>
+﻿@model IEnumerable<PcConfigurator.Models.MotherboardModels.MotherboardModel>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
 }
 
-<h2>Gpu</h2>
+<h2>Motherboard</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -19,13 +19,22 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PowerConsumption)
+            @Html.DisplayNameFor(model => model.Format)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ExpansionSlot)
+            @Html.DisplayNameFor(model => model.Socket)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ChipsetManufacturer)
+            @Html.DisplayNameFor(model => model.MemoryMaximum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemorySlots)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HarddriveInterfaces)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpansionSlots)
         </th>
         <th></th>
     </tr>
@@ -39,13 +48,22 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PowerConsumption)
+            @Html.DisplayFor(modelItem => item.Format)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ExpansionSlot)
+            @Html.DisplayFor(modelItem => item.Socket)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ChipsetManufacturer)
+            @Html.DisplayFor(modelItem => item.MemoryMaximum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemorySlots)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HarddriveInterfaces)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpansionSlots)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

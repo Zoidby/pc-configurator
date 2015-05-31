@@ -89,7 +89,7 @@ function DropdownListGroup(first, second, third, view) {
     this.view = view;
 }
 
-function setupDropdownListGroup(group, url, forced) {
+function setupDropdownListGroup(group) {
     if (group.first != undefined) {
         $(group.first.identifier).unbind("change").change(function() {
             selectChangeWithTwoTargets(this, group.second.identifier, group.second.label, group.third.identifier, group.third.label, group.view);
@@ -130,6 +130,19 @@ $(document).ready(function () {
         $(this).remove();
     });
 
+    $("#saveConfig").on("click", function () {
+        $(this).addClass("disabled");
+        $.ajax({
+            type: "POST",
+            url: $(this).attr("data-url"),
+            data: $(formId).serialize(),
+            cache: false,
+            success: function (data) {
+                $("form").before('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Success!</strong> Configuration saved.</div>');
+            }
+        });
+    });
+
     setupDropdownListGroup(psuGroup);
     setupDropdownListGroup(caseGroup);
     setupDropdownListGroup(gpuGroup);
@@ -160,9 +173,8 @@ function selectChangeWithTwoTargets(source, target1Id, target1Name, target2Id, t
 function selectChangeWithOneTarget(source, targetId, targetName, viewId, myUrl, forced) {
     myAjax(source,
         function (data) {
-            console.log(data);
-            fillFormDropDownList(targetId, targetName, data);
             $(targetId).show();
+            fillFormDropDownList(targetId, targetName, data);
             emptyAndHide(viewId);
         },
         function (data) {
@@ -188,11 +200,17 @@ function selectChangeComponent(source, view) {
 }
 
 function fillFormDropDownList(identifier, defaultName, items) {
-    var result = "<option value selected>" + defaultName + "</option>";
-    $.each(items, function (index, value) {
-        result += "<option value=\"" + value.value + "\">" + value.text + "</option>";
-    });
-    $(identifier).html(result);
+    if (items.length > 0) {
+        $(identifier).show();
+        var result = "<option value selected>" + defaultName + "</option>";
+        $.each(items, function(index, value) {
+            result += "<option value=\"" + value.value + "\">" + value.text + "</option>";
+        });
+        $(identifier).html(result);
+    } else {
+        $("form").before('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Sorry!</strong> No more components found matching your choices. Try changing your configuration.</div>');
+        emptyAndHide(identifier);
+    }
 }
 
 function myAjax(source, mySuccess, myFail, myElse, myData, myUrl, forced) {
@@ -266,6 +284,21 @@ function loadCaseBrands() {
 
 function loadConfirmation() {
     $("ul.setup-panel li:eq(7)").removeClass("disabled");
+    var html = "<div class='panel panel-success'><div class='panel-heading'>Configuration</div><table class='table table-hover'>" +
+        viewToListItem(cpuView, "Cpu") +
+        viewToListItem(motherboardView, "Motherboard") +
+        viewToListItem(caseView, "Case") +
+        viewToListItem(storageView, "Storage") +
+        viewToListItem(memoryView, "Memory") +
+        viewToListItem(gpuView, "Gpu") +
+        viewToListItem(psuView, "Psu") + "</table></div>";
+    $("#recap").html(html);
+}
+
+function viewToListItem(view, label) {
+    var text = $(view + " .panel-heading").text();
+    var html = "<tr><td>" + label + "</td><td>" + text + "</td></tr>";
+    return html;
 }
 
 function longIf() {

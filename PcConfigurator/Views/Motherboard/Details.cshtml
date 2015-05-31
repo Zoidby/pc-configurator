@@ -1,0 +1,83 @@
+﻿@model PcConfigurator.Models.MotherboardModels.MotherboardModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Motherboard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Format)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Format)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Socket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Socket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemoryMaximum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemoryMaximum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemorySlots)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemorySlots)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HarddriveInterfaces)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HarddriveInterfaces)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpansionSlots)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpansionSlots)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

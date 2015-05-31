@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.GpuModels;
 using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
@@ -42,29 +41,49 @@ namespace PcConfigurator.Controllers
             return PartialView("_Gpu", _gpuService.GetById(id));
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
-            var model = new GpuIndexModel {GpuList = _gpuService.GetAll().ToList()};
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Add(GpuAddModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var gpuToAdd = new Gpu {Brand = model.Brand, Name = model.Name};
-                _gpuService.Insert(gpuToAdd);
-                return RedirectToAction("Index");
-            }
-            return View(model);
+            return View(_gpuService.GetAll());
         }
 
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Details(string id)
         {
-            var model = new GpuAddModel();
-            return View(model);
+            return View(_gpuService.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new Gpu());
+        }
+
+        [HttpPost]
+        public ActionResult Create(Gpu component)
+        {
+            _gpuService.Insert(component);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            _gpuService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            return View(_gpuService.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Gpu component)
+        {
+            _gpuService.Update(component);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.CpuModels;
 using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
@@ -22,7 +21,6 @@ namespace PcConfigurator.Controllers
         public ActionResult LoadCpuSocket(ConfigurationFormModel model)
         {
             var output = _cpuService.GetCpuSocketsByBrand(model.CpuBrand).Select(c => new { text = c, value = c });
-            //Debug.WriteLine(JsonConvert.SerializeObject(output));
             return Json(output);
         }
 
@@ -30,57 +28,57 @@ namespace PcConfigurator.Controllers
         public ActionResult LoadCpuId(ConfigurationFormModel model)
         {
             var output = _cpuService.GetCpusBySocket(model.CpuSocket).Select(c => new { text = c.Name, value = c.Id });
-            //Debug.WriteLine(JsonConvert.SerializeObject(output));
             return Json(output);
         }
 
-        public ViewResult Single(string id)
+        [HttpGet]
+        public ActionResult Index()
         {
-            var model = new CpuSingleModel {Entity = _cpuService.GetById(id)};
-            return View(model);
+            return View(_cpuService.GetAll());
         }
 
-        public ActionResult Remove(string id)
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            return View(_cpuService.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new Cpu());
+        }
+
+        [HttpPost]
+        public ActionResult Create(Cpu component)
+        {
+            _cpuService.Insert(component);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(string id)
         {
             _cpuService.Delete(id);
             return RedirectToAction("Index");
         }
 
-        public ViewResult Index()
-        {
-            var model = new CpuIndexModel {CpuList = _cpuService.GetAll().ToList()};
-            return View(model);
-        }
-
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Edit(string id)
         {
-            var model = new CpuAddModel();
-
-            return View(model);
+            return View(_cpuService.GetById(id));
         }
 
         [HttpPost]
-        public ActionResult Add(CpuAddModel model)
+        public ActionResult Edit(Cpu component)
         {
-            if (ModelState.IsValid)
-            {
-                var cpuToAdd = new Cpu
-                {
-                    Brand = model.Brand,
-                    Socket = model.Socket,
-                    Name = model.Name
-                };
-                _cpuService.Insert(cpuToAdd);
-                return RedirectToAction("Index");
-            }
-            return View(model);
+            _cpuService.Update(component);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult LoadCpu(string id)
         {
-            Debug.WriteLine(id);
             return PartialView("_Cpu", _cpuService.GetById(id));
         }
     }

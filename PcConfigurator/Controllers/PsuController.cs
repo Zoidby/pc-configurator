@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.CpuModels;
 using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
@@ -40,5 +39,50 @@ namespace PcConfigurator.Controllers
             return PartialView("_Psu", _psuService.GetById(id));
         }
 
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View(_psuService.GetAll());
+        }
+
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            return View(_psuService.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new Psu());
+        }
+
+        [HttpPost]
+        public ActionResult Create(Psu component)
+        {
+            _psuService.Insert(component);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            _psuService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            return View(_psuService.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Psu component)
+        {
+            _psuService.Update(component);
+            return RedirectToAction("Index");
+        }
     }
 }

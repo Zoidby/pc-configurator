@@ -41,7 +41,10 @@ namespace PcConfigurator.Service.Implementation
 
         public IEnumerable<Psu> GetPsusByConfiguration(ConfigurationFormModel model)
         {
-            return _psuRepo.GetAll().AsEnumerable();
+            return
+                _psuRepo.GetAll()
+                    .Where(p => _configService.GetTotalConsumption(model) <= p.ActualPower && model.PsuBrand == p.Brand)
+                    .AsEnumerable();
         }
 
         public IEnumerable<string> GetPsuBrandsByPowerConsumption(int powerConsumption)

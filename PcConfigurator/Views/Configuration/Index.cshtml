@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PcConfigurator.Entities.Configuration>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
+}
+<h2>Configuration</h2>
+    <p>
+        @Html.ActionLink("Create New", "Index", "Home")
+    </p>
+    <table class="table">
+        <tr>
+            <th>Cpu</th>
+            <th>Motherboard</th>
+            <th>Gpu</th>
+            <th>Memory</th>
+            <th>Storage</th>
+            <th>Case</th>
+            <th>Psu</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href="/Cpu/Details/@item.Cpu.Id">@item.Cpu.Brand @item.Cpu.Name</a></td>
+                <td><a href="/Motherboard/Details/@item.Motherboard.Id">@item.Motherboard.Brand @item.Motherboard.Name</a></td>
+                <td><a href="/Gpu/Details/@item.Gpu.Id">@item.Gpu.Brand @item.Gpu.Name</a></td>
+                <td><a href="/Memory/Details/@item.Memory.Id">@item.Memory.Brand @item.Memory.Name @Html.Raw(item.Memory.Count + "x" + (item.Memory.TotalCapacity / item.Memory.Count))GB</a></td>
+                <td><a href="/Storage/Details/@item.Harddrive.Id">@item.Harddrive.Brand @item.Harddrive.Name @Html.Raw(item.Harddrive.Capacity)GB</a></td>
+                <td><a href="/Case/Details/@item.Case.Id">@item.Case.Brand @item.Case.Name</a></td>
+                <td><a href="/Psu/Details/@item.Psu.Id">@item.Psu.Brand @item.Psu.Name</a></td>
+
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+

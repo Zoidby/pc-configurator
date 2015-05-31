@@ -1,11 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.CpuModels;
 using PcConfigurator.Models.HomeModels;
+using PcConfigurator.Models.MotherboardModels;
 using PcConfigurator.Service;
+using PcConfigurator.Service.Implementation;
 
 namespace PcConfigurator.Controllers
 {
@@ -51,6 +54,86 @@ namespace PcConfigurator.Controllers
                 _moboService.GetById(id);
             return PartialView("_Motherboard", output);
 
+        }
+
+
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View(_moboService.GetAll().Select(m => EntityToModel(m)));
+        }
+
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            return View(EntityToModel(_moboService.GetById(id)));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View(new MotherboardModel());
+        }
+
+        [HttpPost]
+        public ActionResult Create(MotherboardModel component)
+        {
+            _moboService.Insert(ModelToEntity(component));
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            _moboService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            return View(EntityToModel(_moboService.GetById(id)));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(MotherboardModel component)
+        {
+            _moboService.Update(ModelToEntity(component));
+            return RedirectToAction("Index");
+        }
+
+        private MotherboardModel EntityToModel(Motherboard mobo)
+        {
+            return new MotherboardModel
+            {
+                Id = mobo.Id,
+                Brand = mobo.Brand,
+                Name = mobo.Name,
+                MemoryMaximum = mobo.MemoryMaximum,
+                MemorySlots = mobo.MemorySlots,
+                Format = mobo.Format,
+                Socket = mobo.Socket,
+                ExpansionSlots = mobo.ExpansionSlots.JoinStrings(","),
+                HarddriveInterfaces = mobo.HarddriveInterfaces.JoinStrings(",")
+            };
+        }
+
+        private Motherboard ModelToEntity(MotherboardModel model)
+        {
+            return new Motherboard
+            {
+                Brand = model.Brand,
+                Name = model.Name,
+                MemoryMaximum = model.MemoryMaximum,
+                MemorySlots = model.MemorySlots,
+                Format = model.Format,
+                Socket = model.Socket,
+                ExpansionSlots = model.ExpansionSlots.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
+                        .ToList(),
+                HarddriveInterfaces = model.HarddriveInterfaces.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
+                .ToList(),
+            };
         }
     }
 }

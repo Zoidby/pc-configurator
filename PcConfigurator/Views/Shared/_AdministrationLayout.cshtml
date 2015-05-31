@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/yeti/bootstrap.min.css")
+    @Styles.Render("~/Content/css")
+
+</head>
+<body>
+<div class="container body-content">
+    <ul class="nav nav-pills">
+        <li role="presentation">@Html.ActionLink("Cpu", "Index", "Cpu")</li>
+        <li role="presentation">@Html.ActionLink("Gpu", "Index", "Gpu")</li>
+        <li role="presentation">@Html.ActionLink("Motherboard", "Index", "Motherboard")</li>
+        <li role="presentation">@Html.ActionLink("Case", "Index", "Case")</li>
+        <li role="presentation">@Html.ActionLink("Memory", "Index", "Memory")</li>
+        <li role="presentation">@Html.ActionLink("Storage", "Index", "Storage")</li>
+        <li role="presentation">@Html.ActionLink("Psu", "Index", "Psu")</li>
+        <li role="presentation">@Html.ActionLink("Configuration", "Index", "Configuration")</li>
+    </ul>
+    @RenderBody()
+</div>
+
+    @Scripts.Render("https://code.jquery.com/jquery-2.1.4.min.js")
+    @Scripts.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
+    @Scripts.Render("~/bundles/custom")
+
+    @RenderSection("scripts", false)
+</body>
+</html>

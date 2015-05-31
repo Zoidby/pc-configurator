@@ -146,6 +146,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\CaseController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\PsuController.cs" />
     <Compile Include="Controllers\MotherboardController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
@@ -163,15 +164,14 @@
     <Compile Include="Entities\Motherboard.cs" />
     <Compile Include="Entities\PowerConsumerComponent.cs" />
     <Compile Include="Entities\Psu.cs" />
+    <Compile Include="Models\CaseModels\CaseModel.cs" />
     <Compile Include="Models\HomeModels\ConfigurationFormModel.cs" />
     <Compile Include="Models\HomeModels\HomeIndexModel.cs" />
+    <Compile Include="Models\MotherboardModels\MotherboardModel.cs" />
     <Compile Include="Repositories\IConfigurationRepository.cs" />
     <Compile Include="Repositories\IHarddriveRepository.cs" />
     <Compile Include="Repositories\Mongo\ConfigurationRepository.cs" />
     <Compile Include="Repositories\Mongo\HarddriveRepository.cs" />
-    <Compile Include="Models\CpuModels\CpuSingleModel.cs" />
-    <Compile Include="Models\GpuModels\GpuAddModel.cs" />
-    <Compile Include="Models\GpuModels\GpuIndexModel.cs" />
     <Compile Include="Repositories\ICaseRepository.cs" />
     <Compile Include="Repositories\IMemoryRepository.cs" />
     <Compile Include="Repositories\IMotherboardRepository.cs" />
@@ -186,8 +186,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Entities\Cpu.cs" />
-    <Compile Include="Models\CpuModels\CpuAddModel.cs" />
-    <Compile Include="Models\CpuModels\CpuIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ICpuRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -234,6 +232,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\printThis.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -254,11 +253,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Cpu\Add.cshtml" />
-    <Content Include="Views\Cpu\Index.cshtml" />
-    <Content Include="Views\Cpu\Single.cshtml" />
-    <Content Include="Views\Gpu\Add.cshtml" />
-    <Content Include="Views\Gpu\Index.cshtml" />
     <Content Include="Views\Cpu\_Cpu.cshtml" />
     <Content Include="Views\Gpu\_Gpu.cshtml" />
     <Content Include="Views\Storage\_Storage.cshtml" />
@@ -273,6 +267,36 @@
     <Content Include="Views\Psu\_DropdownListGroup.cshtml" />
     <Content Include="Views\Storage\_DropdownListGroup.cshtml" />
     <Content Include="Views\Case\_DropdownListGroup.cshtml" />
+    <Content Include="Views\Memory\Details.cshtml" />
+    <Content Include="Views\Memory\Index.cshtml" />
+    <Content Include="Views\Memory\Create.cshtml" />
+    <Content Include="Views\Memory\Edit.cshtml" />
+    <Content Include="Views\Psu\Index.cshtml" />
+    <Content Include="Views\Psu\Details.cshtml" />
+    <Content Include="Views\Psu\Create.cshtml" />
+    <Content Include="Views\Psu\Edit.cshtml" />
+    <Content Include="Views\Storage\Edit.cshtml" />
+    <Content Include="Views\Storage\Create.cshtml" />
+    <Content Include="Views\Storage\Details.cshtml" />
+    <Content Include="Views\Storage\Index.cshtml" />
+    <Content Include="Views\Cpu\Edit.cshtml" />
+    <Content Include="Views\Cpu\Create.cshtml" />
+    <Content Include="Views\Cpu\Details.cshtml" />
+    <Content Include="Views\Cpu\Index.cshtml" />
+    <Content Include="Views\Gpu\Index.cshtml" />
+    <Content Include="Views\Gpu\Details.cshtml" />
+    <Content Include="Views\Gpu\Create.cshtml" />
+    <Content Include="Views\Gpu\Edit.cshtml" />
+    <Content Include="Views\Case\Create.cshtml" />
+    <Content Include="Views\Case\Edit.cshtml" />
+    <Content Include="Views\Case\Details.cshtml" />
+    <Content Include="Views\Motherboard\Edit.cshtml" />
+    <Content Include="Views\Motherboard\Create.cshtml" />
+    <Content Include="Views\Motherboard\Details.cshtml" />
+    <Content Include="Views\Case\Index.cshtml" />
+    <Content Include="Views\Motherboard\Index.cshtml" />
+    <Content Include="Views\Shared\_AdministrationLayout.cshtml" />
+    <Content Include="Views\Configuration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

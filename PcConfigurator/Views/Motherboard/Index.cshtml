@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PcConfigurator.Models.MotherboardModels.MotherboardModel>
+﻿@model IEnumerable<PcConfigurator.Entities.Motherboard>
 
 @{
     ViewBag.Title = "Index";
@@ -60,10 +60,12 @@
             @Html.DisplayFor(modelItem => item.MemorySlots)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HarddriveInterfaces)
+            @string.Join(", ", item.HarddriveInterfaces)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ExpansionSlots)
+            @string.Join(", ", item.ExpansionSlots)
+
+
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

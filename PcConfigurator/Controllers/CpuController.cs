@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
@@ -40,6 +41,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_cpuService.GetById(id));
         }
 
@@ -52,13 +57,21 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Create(Cpu component)
         {
-            _cpuService.Insert(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _cpuService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _cpuService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -66,19 +79,31 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_cpuService.GetById(id));
         }
 
         [HttpPost]
         public ActionResult Edit(Cpu component)
         {
-            _cpuService.Update(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _cpuService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpPost]
         public ActionResult LoadCpu(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return PartialView("_Cpu", _cpuService.GetById(id));
         }
     }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PcConfigurator.Models.CaseModels.CaseModel>
+﻿@model IEnumerable<PcConfigurator.Entities.Case>
 
 @{
     ViewBag.Title = "Index";
@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MotherboardCompatibility)
+            @string.Join(", ", item.MotherboardCompatibility)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

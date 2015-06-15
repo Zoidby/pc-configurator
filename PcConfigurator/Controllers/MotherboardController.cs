@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
 using PcConfigurator.Models.HomeModels;
-using PcConfigurator.Models.MotherboardModels;
 using PcConfigurator.Service;
 using PcConfigurator.Service.Implementation;
 
@@ -24,7 +24,7 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult LoadMotherboardFormat(ConfigurationFormModel model)
         {
-            var output = _moboService.GetMotherboardFormatsByConfiguration(model).Select(s => new {text = s, value = s});
+            var output = _moboService.GetMotherboardFormatsByConfiguration(model).Select(s => new { text = s, value = s });
             return Json(output);
         }
 
@@ -33,7 +33,7 @@ namespace PcConfigurator.Controllers
         {
             var output =
                 _moboService.GetMotherboardBrandsByConfiguration(model)
-                    .Select(s => new {text = s, value = s});
+                    .Select(s => new { text = s, value = s });
             return Json(output);
         }
 
@@ -50,6 +50,10 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult LoadMotherboard(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var output =
                 _moboService.GetById(id);
             return PartialView("_Motherboard", output);
@@ -61,31 +65,46 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_moboService.GetAll().Select(m => EntityToModel(m)));
+            return View(_moboService.GetAll());
         }
 
         [HttpGet]
         public ActionResult Details(string id)
         {
-            return View(EntityToModel(_moboService.GetById(id)));
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View(_moboService.GetById(id));
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new MotherboardModel());
+            return View(new Motherboard());
         }
 
         [HttpPost]
-        public ActionResult Create(MotherboardModel component)
+        public ActionResult Create(Motherboard component, string harddriveInterfaces, string expansionSlots)
         {
-            _moboService.Insert(ModelToEntity(component));
-            return RedirectToAction("Index");
+            if (ModelState.IsValid && !string.IsNullOrEmpty(harddriveInterfaces) && !string.IsNullOrEmpty(expansionSlots))
+            {
+
+                component.HarddriveInterfaces = harddriveInterfaces.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                component.ExpansionSlots = expansionSlots.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                _moboService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _moboService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -93,47 +112,30 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
-            return View(EntityToModel(_moboService.GetById(id)));
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var mobo = _moboService.GetById(id);
+            return View(mobo);
         }
 
         [HttpPost]
-        public ActionResult Edit(MotherboardModel component)
+        public ActionResult Edit(Motherboard component, string harddriveInterfaces, string expansionSlots)
         {
-            _moboService.Update(ModelToEntity(component));
-            return RedirectToAction("Index");
-        }
-
-        private MotherboardModel EntityToModel(Motherboard mobo)
-        {
-            return new MotherboardModel
+            if (ModelState.IsValid && !string.IsNullOrEmpty(harddriveInterfaces) &&
+                !string.IsNullOrEmpty(expansionSlots))
             {
-                Id = mobo.Id,
-                Brand = mobo.Brand,
-                Name = mobo.Name,
-                MemoryMaximum = mobo.MemoryMaximum,
-                MemorySlots = mobo.MemorySlots,
-                Format = mobo.Format,
-                Socket = mobo.Socket,
-                ExpansionSlots = mobo.ExpansionSlots.JoinStrings(","),
-                HarddriveInterfaces = mobo.HarddriveInterfaces.JoinStrings(",")
-            };
-        }
-
-        private Motherboard ModelToEntity(MotherboardModel model)
-        {
-            return new Motherboard
-            {
-                Brand = model.Brand,
-                Name = model.Name,
-                MemoryMaximum = model.MemoryMaximum,
-                MemorySlots = model.MemorySlots,
-                Format = model.Format,
-                Socket = model.Socket,
-                ExpansionSlots = model.ExpansionSlots.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
-                        .ToList(),
-                HarddriveInterfaces = model.HarddriveInterfaces.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
-                .ToList(),
-            };
+                component.HarddriveInterfaces =
+                    harddriveInterfaces.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+                component.ExpansionSlots =
+                    expansionSlots.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                _moboService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
     }
 }

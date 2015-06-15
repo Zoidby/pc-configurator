@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
@@ -21,7 +22,7 @@ namespace PcConfigurator.Controllers
         public ActionResult LoadStorageBrand(ConfigurationFormModel model)
         {
             var output =
-                _storageService.GetStorageBrandsByCapacity(model.StorageCapacity).Select(s => new {text = s, value = s});
+                _storageService.GetStorageBrandsByCapacity(model.StorageCapacity).Select(s => new { text = s, value = s });
             return Json(output);
 
         }
@@ -37,7 +38,10 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult LoadStorage(string id)
         {
-            Debug.WriteLine(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return PartialView("_Storage", _storageService.GetById(id));
         }
 
@@ -50,6 +54,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_storageService.GetById(id));
         }
 
@@ -62,13 +70,21 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Create(Harddrive component)
         {
-            _storageService.Insert(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _storageService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _storageService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -76,14 +92,22 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_storageService.GetById(id));
         }
 
         [HttpPost]
         public ActionResult Edit(Harddrive component)
         {
-            _storageService.Update(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _storageService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
     }
 }

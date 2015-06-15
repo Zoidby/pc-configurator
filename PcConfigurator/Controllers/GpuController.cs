@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
@@ -21,7 +22,7 @@ namespace PcConfigurator.Controllers
         public ActionResult LoadGpuBrand(ConfigurationFormModel model)
         {
             var output =
-                _gpuService.GetGpuBrandsByManufacturer(model.GpuManufacturer).Select(s => new {text = s, value = s});
+                _gpuService.GetGpuBrandsByManufacturer(model.GpuManufacturer).Select(s => new { text = s, value = s });
             return Json(output);
         }
 
@@ -30,13 +31,17 @@ namespace PcConfigurator.Controllers
         {
             var output =
                 _gpuService.GetGpusByBrandAndManufacturer(model.GpuBrand, model.GpuManufacturer)
-                    .Select(g => new {text = g.Name, value = g.Id});
+                    .Select(g => new { text = g.Name, value = g.Id });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadGpu(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Debug.WriteLine(id);
             return PartialView("_Gpu", _gpuService.GetById(id));
         }
@@ -50,6 +55,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_gpuService.GetById(id));
         }
 
@@ -62,13 +71,21 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Create(Gpu component)
         {
-            _gpuService.Insert(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _gpuService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _gpuService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -76,14 +93,22 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_gpuService.GetById(id));
         }
 
         [HttpPost]
         public ActionResult Edit(Gpu component)
         {
-            _gpuService.Update(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _gpuService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
     }
 }

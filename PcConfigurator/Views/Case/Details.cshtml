@@ -1,4 +1,4 @@
-﻿@model PcConfigurator.Models.CaseModels.CaseModel
+﻿@model PcConfigurator.Entities.Case
 
 @{
     ViewBag.Title = "View";
@@ -32,7 +32,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MotherboardCompatibility)
+            @string.Join(", ", Model.MotherboardCompatibility)
         </dd>
 
     </dl>

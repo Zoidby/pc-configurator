@@ -164,10 +164,7 @@
     <Compile Include="Entities\Motherboard.cs" />
     <Compile Include="Entities\PowerConsumerComponent.cs" />
     <Compile Include="Entities\Psu.cs" />
-    <Compile Include="Models\CaseModels\CaseModel.cs" />
     <Compile Include="Models\HomeModels\ConfigurationFormModel.cs" />
-    <Compile Include="Models\HomeModels\HomeIndexModel.cs" />
-    <Compile Include="Models\MotherboardModels\MotherboardModel.cs" />
     <Compile Include="Repositories\IConfigurationRepository.cs" />
     <Compile Include="Repositories\IHarddriveRepository.cs" />
     <Compile Include="Repositories\Mongo\ConfigurationRepository.cs" />
@@ -221,6 +218,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\422783 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\422783 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tryconfiguration - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tryconfiguration - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tryconfiguration.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

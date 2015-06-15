@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
@@ -29,14 +30,17 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult LoadMemoryId(ConfigurationFormModel model)
         {
-            var output = _memoryService.GetMemoriesByCapacityAndBrand(model.MemoryCapacity, model.MemoryBrand).Select(m => new {text = m.Name, value= m.Id});
+            var output = _memoryService.GetMemoriesByCapacityAndBrand(model.MemoryCapacity, model.MemoryBrand).Select(m => new { text = m.Name, value = m.Id });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadMemory(string id)
         {
-            Debug.WriteLine(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return PartialView("_Memory", _memoryService.GetById(id));
         }
 
@@ -51,6 +55,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_memoryService.GetById(id));
         }
 
@@ -63,13 +71,21 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Create(Memory memory)
         {
-            _memoryService.Insert(memory);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _memoryService.Insert(memory);
+                return RedirectToAction("Index");
+            }
+            return View(memory);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _memoryService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -77,14 +93,22 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_memoryService.GetById(id));
         }
 
         [HttpPost]
         public ActionResult Edit(Memory memory)
         {
-            _memoryService.Update(memory);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _memoryService.Update(memory);
+                return RedirectToAction("Index");
+            }
+            return View(memory);
         }
 
     }

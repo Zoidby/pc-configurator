@@ -1,4 +1,4 @@
-﻿@model PcConfigurator.Models.MotherboardModels.MotherboardModel
+﻿@model PcConfigurator.Entities.Motherboard
 
 @{
     ViewBag.Title = "Details";
@@ -64,7 +64,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HarddriveInterfaces)
+            @string.Join(", ", Model.HarddriveInterfaces)
         </dd>
 
         <dt>
@@ -72,7 +72,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ExpansionSlots)
+            @string.Join(", ", Model.ExpansionSlots)
         </dd>
 
     </dl>

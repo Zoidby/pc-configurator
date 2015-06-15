@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
@@ -22,20 +23,24 @@ namespace PcConfigurator.Controllers
         {
             var powerConsumption = model.MemoryPowerConsumption + model.MotherboardPowerConsumption +
                                    model.CpuPowerConsumption + model.StoragePowerConsumption + model.GpuPowerConsumption;
-            var output = _psuService.GetPsuBrandsByPowerConsumption(powerConsumption).Select(s => new {text = s, value = s});
+            var output = _psuService.GetPsuBrandsByPowerConsumption(powerConsumption).Select(s => new { text = s, value = s });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadPsuId(ConfigurationFormModel model)
         {
-            var output = _psuService.GetPsusByConfiguration(model).Select(p => new {text = p.Name, value = p.Id});
+            var output = _psuService.GetPsusByConfiguration(model).Select(p => new { text = p.Name, value = p.Id });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadPsu(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return PartialView("_Psu", _psuService.GetById(id));
         }
 
@@ -49,6 +54,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_psuService.GetById(id));
         }
 
@@ -61,13 +70,21 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult Create(Psu component)
         {
-            _psuService.Insert(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _psuService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _psuService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -75,14 +92,22 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(_psuService.GetById(id));
         }
 
         [HttpPost]
         public ActionResult Edit(Psu component)
         {
-            _psuService.Update(component);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _psuService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
     }
 }

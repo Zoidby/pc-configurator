@@ -1,4 +1,4 @@
-﻿@model PcConfigurator.Models.MotherboardModels.MotherboardModel
+﻿@model PcConfigurator.Entities.Motherboard
 
 @{
     ViewBag.Title = "Edit";
@@ -66,20 +66,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.HarddriveInterfaces, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Expansion Slots", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HarddriveInterfaces, new { htmlAttributes = new { @class = "form-control", @aria_describedby = "helpBlock1" } })
-                @Html.ValidationMessageFor(model => model.HarddriveInterfaces, "", new { @class = "text-danger" })
+                @Html.TextBox("expansionSlots", string.Join(", ",Model.ExpansionSlots), new { @class = "form-control" })
                 <span id="helpBlock1" class="help-block">Separate with coma</span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ExpansionSlots, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Harddrive Interfaces", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ExpansionSlots, new { htmlAttributes = new { @class = "form-control", @aria_describedby = "helpBlock2" } })
-                @Html.ValidationMessageFor(model => model.ExpansionSlots, "", new { @class = "text-danger" })
-                <span id="helpBlock2" class="help-block">Separate with coma</span>
+                @Html.TextBox("harddriveInterfaces", string.Join(", ", Model.HarddriveInterfaces), new { @class = "form-control" })
+                <span id="helpBlock1" class="help-block">Separate with coma</span>
             </div>
         </div>
 

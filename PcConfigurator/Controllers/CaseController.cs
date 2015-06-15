@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using PcConfigurator.Entities;
-using PcConfigurator.Models.CaseModels;
 using PcConfigurator.Models.HomeModels;
 using PcConfigurator.Service;
 
@@ -22,53 +22,73 @@ namespace PcConfigurator.Controllers
         [HttpPost]
         public ActionResult LoadCaseId(ConfigurationFormModel model)
         {
-            var output = _caseService.GetCasesByConfiguration(model).Select(c => new {text = c.Name, value = c.Id});
+            var output = _caseService.GetCasesByConfiguration(model).Select(c => new { text = c.Name, value = c.Id });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadCaseBrand(ConfigurationFormModel model)
         {
-            var output = _caseService.GetCaseBrandsByFormat(model.MotherboardFormat).Select(b => new {text = b, value = b});
+            var output = _caseService.GetCaseBrandsByFormat(model.MotherboardFormat).Select(b => new { text = b, value = b });
             return Json(output);
         }
 
         [HttpPost]
         public ActionResult LoadCase(string id)
         {
-            return PartialView("_Case",_caseService.GetById(id));
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return PartialView("_Case", _caseService.GetById(id));
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_caseService.GetAll().Select(c => EntityToModel(c)));
+            return View(_caseService.GetAll());
         }
 
         [HttpGet]
         public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var caseEntity =
             _caseService.GetById(id);
-            return View(EntityToModel(caseEntity));
+            return View(caseEntity);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new CaseModel());
+            return View(new Case());
         }
 
         [HttpPost]
-        public ActionResult Create(CaseModel component)
+        public ActionResult Create(Case component, string motherboardCompatibility)
         {
-            _caseService.Insert(ModelToEntity(component));
-            return RedirectToAction("Index");
+            if (ModelState.IsValid && !string.IsNullOrEmpty(motherboardCompatibility))
+            {
+                component.MotherboardCompatibility =
+                    motherboardCompatibility.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+                _caseService.Insert(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _caseService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -76,41 +96,28 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var caseEntity =
             _caseService.GetById(id);
-            return View(EntityToModel(caseEntity));
+            return View(caseEntity);
         }
 
         [HttpPost]
-        public ActionResult Edit(CaseModel component)
+        public ActionResult Edit(Case component, string motherboardCompatibility)
         {
-            _caseService.Update(ModelToEntity(component));
-            return RedirectToAction("Index");
-        }
-
-
-        private Case ModelToEntity(CaseModel model)
-        {
-            return new Case
+            if (ModelState.IsValid && !string.IsNullOrEmpty(motherboardCompatibility))
             {
-                Id = model.Id,
-                Brand = model.Brand,
-                Name = model.Name,
-                MotherboardCompatibility =
-                    model.MotherboardCompatibility.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim())
-                        .ToList()
-            };
-        }
-
-        private CaseModel EntityToModel(Case entity)
-        {
-            return new CaseModel
-            {
-                Id = entity.Id,
-                Brand = entity.Brand,
-                Name = entity.Name,
-                MotherboardCompatibility = entity.MotherboardCompatibility.JoinStrings(",")
-            };
+                component.MotherboardCompatibility =
+                    motherboardCompatibility.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+                _caseService.Update(component);
+                return RedirectToAction("Index");
+            }
+            return View(component);
         }
     }
 }

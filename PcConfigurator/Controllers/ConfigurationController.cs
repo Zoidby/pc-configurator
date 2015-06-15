@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PcConfigurator.Entities;
@@ -41,6 +42,10 @@ namespace PcConfigurator.Controllers
         [HttpGet]
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             _configService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -59,7 +64,7 @@ namespace PcConfigurator.Controllers
                 Case = _caseService.GetById(model.CaseId)
             };
             _configService.Insert(config);
-            return Json(new {result = "success"});
+            return Json(new { result = "success" });
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System.Security.Claims;
+using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -22,6 +24,8 @@ namespace PcConfigurator
                 cm.AutoMap();
                 cm.SetIdMember(cm.GetMemberMap(x => x.Id).SetIdGenerator(StringObjectIdGenerator.Instance));
             });
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
         }
     }
 }

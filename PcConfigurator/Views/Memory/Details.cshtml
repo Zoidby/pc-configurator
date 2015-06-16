@@ -1,7 +1,7 @@
 ﻿@model PcConfigurator.Entities.Memory
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
 }
 
@@ -25,6 +25,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemoryInterface)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemoryInterface)
         </dd>
 
         <dt>

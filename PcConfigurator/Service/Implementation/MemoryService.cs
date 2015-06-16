@@ -27,7 +27,6 @@ namespace PcConfigurator.Service.Implementation
                 result =
                     result.Where(
                         m =>
-                            m.TotalCapacity <= configuration.Motherboard.MemoryMaximum &&
                             m.Count <= configuration.Motherboard.MemorySlots);
             }
             if (configuration.Psu != null)

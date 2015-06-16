@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PcConfigurator.Entities.Memory>
 
 @{
-    ViewBag.Title = "View1";
+    ViewBag.Title = "Memories";
     Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
 }
 
@@ -17,6 +17,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemoryInterface)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PowerConsumption)
@@ -37,6 +40,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemoryInterface)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PowerConsumption)

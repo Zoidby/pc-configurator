@@ -8,5 +8,7 @@ namespace PcConfigurator.Entities
         public int TotalCapacity { get; set; }
         [Required]
         public int Count { get; set; }
+        [Required]
+        public string MemoryInterface { get; set; }
     }
 }

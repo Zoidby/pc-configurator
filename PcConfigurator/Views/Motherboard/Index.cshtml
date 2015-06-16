@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PcConfigurator.Entities.Motherboard>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Motherboards";
     Layout = "~/Views/Shared/_AdministrationLayout.cshtml";
 }
 
@@ -25,7 +25,7 @@
             @Html.DisplayNameFor(model => model.Socket)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MemoryMaximum)
+            @Html.DisplayNameFor(model => model.MemoryInterface)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MemorySlots)
@@ -54,7 +54,7 @@
             @Html.DisplayFor(modelItem => item.Socket)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MemoryMaximum)
+            @Html.DisplayFor(modelItem => item.MemoryInterface)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MemorySlots)

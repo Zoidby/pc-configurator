@@ -10,9 +10,9 @@ namespace PcConfigurator.Entities
         [Required]
         public string Socket { get; set; }
         [Required]
-        public int MemoryMaximum { get; set; }
-        [Required]
         public int MemorySlots { get; set; }
+        [Required]
+        public string MemoryInterface { get; set; }
         public IList<string> HarddriveInterfaces { get; set; }
         public IList<string> ExpansionSlots { get; set; }
     }

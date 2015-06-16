@@ -17,12 +17,13 @@ namespace PcConfigurator.Service.Implementation
         private readonly ICpuService _cpuService;
         private readonly IGpuService _gpuService;
 
-        public MotherboardService(IMotherboardRepository moboRepo, 
-            IConfigurationService configService, 
+        public MotherboardService(IMotherboardRepository moboRepo,
+            IConfigurationService configService,
             IMemoryService memoryService,
-            IStorageService storageService, 
-            ICpuService cpuService, 
-            IGpuService gpuService) : base(moboRepo)
+            IStorageService storageService,
+            ICpuService cpuService,
+            IGpuService gpuService)
+            : base(moboRepo)
         {
             _moboRepo = moboRepo;
             _configService = configService;
@@ -49,7 +50,6 @@ namespace PcConfigurator.Service.Implementation
                 result =
                     result.Where(
                         m =>
-                            m.MemoryMaximum >= configuration.Memory.TotalCapacity &&
                             m.MemorySlots >= configuration.Memory.Count);
             }
             if (configuration.Harddrive != null)
@@ -81,8 +81,8 @@ namespace PcConfigurator.Service.Implementation
             }
 
             return _moboRepo.GetAll()
-                .Where(m => m.MemoryMaximum >= memory.TotalCapacity
-                    && m.MemorySlots >= memory.Count
+                .Where(m => m.MemorySlots >= memory.Count
+                    && m.MemoryInterface == memory.MemoryInterface
                     && m.ExpansionSlots.Contains(gpu.ExpansionSlot)
                     && m.HarddriveInterfaces.Contains(hdd.Interface)
                     && m.Socket == cpu.Socket).Select(m => m.Format).Distinct().AsEnumerable();
@@ -100,9 +100,9 @@ namespace PcConfigurator.Service.Implementation
             }
 
             return _moboRepo.GetAll()
-                .Where(m => m.MemoryMaximum >= memory.TotalCapacity
-                    && m.MemorySlots >= memory.Count 
-                    && m.ExpansionSlots.Contains(gpu.ExpansionSlot) 
+                .Where(m => m.MemorySlots >= memory.Count
+                    && m.MemoryInterface == memory.MemoryInterface
+                    && m.ExpansionSlots.Contains(gpu.ExpansionSlot)
                     && m.HarddriveInterfaces.Contains(hdd.Interface)
                     && m.Socket == cpu.Socket
                     && m.Format == model.MotherboardFormat)
@@ -121,12 +121,12 @@ namespace PcConfigurator.Service.Implementation
             }
 
             return _moboRepo.GetAll()
-                .Where(m => m.MemoryMaximum >= memory.TotalCapacity
-                    && m.MemorySlots >= memory.Count
+                .Where(m => m.MemorySlots >= memory.Count
+                    && m.MemoryInterface == memory.MemoryInterface
                     && m.ExpansionSlots.Contains(gpu.ExpansionSlot)
                     && m.HarddriveInterfaces.Contains(hdd.Interface)
                     && m.Socket == cpu.Socket
-                    && m.Format == model.MotherboardFormat 
+                    && m.Format == model.MotherboardFormat
                 && m.Brand == model.MotherboardBrand).AsEnumerable();
         }
     }
